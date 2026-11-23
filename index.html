@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="icon.ico">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#263b51">
+  <title>Pokémon Cascade | Region Map</title>
+  <link rel="stylesheet" href="style.css?v=map-relative-cursor-5">
+  <script src="map.js?v=offline-and-pages-9" defer></script>
+</head>
+<body>
+  <main class="region-map" aria-label="Pokémon Cascade region map">
+    <div id="viewport" class="map-viewport" tabindex="0" aria-label="Region map. Click to position the cursor, or use WASD, arrow keys or numpad to move. Drag to pan and scroll to zoom.">
+      <div id="mapScene" class="map-scene" aria-hidden="true">
+        <div id="stage" class="map-stage">
+          <img id="terrainLayer" src="0terrain.webp" alt="" draggable="false">
+          <img id="routesLayer" src="1routes.webp" alt="" draggable="false">
+          <img id="townsLayer" src="2towns.webp" alt="" draggable="false">
+        </div>
+      </div>
+    </div>
+    <!-- Cursor is overlaid on the map; its sprite dimensions follow map zoom. -->
+    <div id="cursorLayer" class="cursor-overlay" aria-hidden="true">
+      <div id="cursor" class="map-cursor">
+        <img class="cursor-frame frame-one" id="cursorFrame1" src="cursor1.webp" alt="" draggable="false">
+        <img class="cursor-frame frame-two" id="cursorFrame2" src="cursor2.webp" alt="" draggable="false">
+      </div>
+    </div>
+
+    <div class="maps-control">
+      <label for="mapSelect">MAPS</label>
+      <select id="mapSelect" aria-label="Maps"><option value="">Full region</option></select>
+    </div>
+
+    <div class="mode-controls" role="group" aria-label="Map display layers">
+      <button type="button" id="terrainMode" class="mode-button active" aria-label="Terrain: hide routes and towns" aria-pressed="true">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3 8 14h4L5 23h22l-7-9h4z" fill="currentColor"/><path d="M13 22h6v8h-6z" fill="currentColor"/></svg><span class="mode-caption">Terrain</span>
+      </button>
+      <button type="button" id="routesMode" class="mode-button" aria-label="Routes overlay" aria-pressed="false">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M11 2h10l7 28H4z" fill="currentColor"/><path d="M15 6h2v6h-2zm0 10h2v6h-2zm0 9h2v4h-2z" fill="#31516a"/></svg><span class="mode-caption">Routes</span>
+      </button>
+      <button type="button" id="townsMode" class="mode-button" aria-label="Towns overlay" aria-pressed="false">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 14h8v16H3zm10-9h9v25h-9zm11 11h5v14h-5z" fill="currentColor"/><path d="M6 18h2v3H6zm0 6h2v3H6zm10-15h3v3h-3zm0 7h3v3h-3zm0 7h3v3h-3zm10-3h2v3h-2z" fill="#31516a"/></svg><span class="mode-caption">Towns</span>
+      </button>
+    </div>
+
+    <div class="location-window" aria-live="polite" aria-atomic="true"><span id="locationName">POKéMON CASCADE</span></div>
+    <div id="loading" class="loading" role="status">LOADING MAP...</div>
+    <div id="mapError" class="map-error" role="alert" hidden>Map could not be loaded. Check the console for details.</div>
+  </main>
+</body>
+</html>

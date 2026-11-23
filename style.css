@@ -1,0 +1,41 @@
+@font-face { font-family: Emerald; src: url('font.ttf') format('truetype'); font-display: swap; }
+:root { --cursor-cycle: 669.5ms; --ink: #293b54; --paper: #f8f7ed; }
+*,*::before,*::after { box-sizing:border-box; }
+html,body { margin:0; width:100%; min-height:100%; }
+body { background:#1b2b3e; color:var(--paper); font:18px Emerald,monospace; }
+button,select { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,select:focus-visible,#viewport:focus-visible { outline:3px solid #ffdb7a; outline-offset:3px; }
+.region-map { position:relative; width:100%; height:100dvh; min-height:300px; overflow:hidden; isolation:isolate; border:7px solid #2c4258; box-shadow:inset 0 0 0 3px #a3b9c4; background:#77bbc9; }
+.map-title { position:absolute; left:17px; top:15px; z-index:5; font-size:clamp(16px,2vw,24px); line-height:1; padding:6px 10px; color:#fffdf2; text-shadow:2px 2px #314c65,-1px -1px #314c65; pointer-events:none; }
+.map-viewport { position:absolute; inset:0; overflow:hidden; cursor:crosshair; touch-action:none; user-select:none; }
+.map-viewport.dragging { cursor:grabbing; }
+.map-scene { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.map-stage { position:absolute; left:0; top:0; pointer-events:none; }
+/* Source pixels are preserved at 1x, duplicated without smoothing at 2x-8x. */
+.map-stage img { position:absolute; left:0; top:0; width:100%; height:100%; max-width:none; display:block; image-rendering:pixelated; }
+.map-stage img[hidden] { display:none; }
+/* Independent overlay. Never put the sprite inside the map scene or stage. */
+.cursor-overlay { position:absolute; inset:0; z-index:3; overflow:hidden; pointer-events:none; contain:layout style; }
+.map-cursor { position:absolute; top:0; left:0; pointer-events:none; width:0; height:0; transform:none!important; transform-origin:0 0; scale:1!important; zoom:1!important; }
+.cursor-frame { position:absolute; display:block; top:0; left:0; width:auto; height:auto; max-width:none; max-height:none; transform:translate(-50%,-50%); transform-origin:center; scale:1!important; zoom:1!important; image-rendering:pixelated; }
+.frame-one { animation:frame-one var(--cursor-cycle) steps(1,end) infinite; }
+.frame-two { animation:frame-two var(--cursor-cycle) steps(1,end) infinite; }
+@keyframes frame-one { 0%,49.999% { opacity:1 } 50%,100% { opacity:0 } }
+@keyframes frame-two { 0%,49.999% { opacity:0 } 50%,100% { opacity:1 } }
+.maps-control { position:absolute; top:18px; right:21px; z-index:6; display:flex; align-items:center; gap:10px; background:var(--paper); color:var(--ink); border:3px solid #273952; box-shadow:inset 0 0 0 2px #a5bed0,4px 4px 0 #1e34465e; padding:4px 8px; max-width:min(80vw,430px); }
+.maps-control label { font-size:14px; white-space:nowrap; }
+.maps-control select { appearance:auto; background:transparent; color:var(--ink); border:0; min-height:31px; min-width:100px; width:clamp(125px,22vw,260px); max-width:100%; font-size:17px; padding:2px 5px; text-overflow:ellipsis; }
+.mode-controls { position:absolute; right:18px; bottom:18px; z-index:6; display:flex; gap:8px; }
+.mode-button { position:relative; width:49px; height:49px; background:var(--paper); color:#3d6175; border:3px solid #263c54; box-shadow:inset 0 0 0 2px #b6ccd2,3px 3px 0 #19384e60; padding:7px; display:grid; place-items:center; }
+.mode-button svg { width:100%; height:100%; image-rendering:pixelated; }
+.mode-button.active { background:#def6e8; color:#277f69; border-color:#174e5a; box-shadow:inset 0 0 0 2px #93d8c6,3px 3px 0 #19384e60; }
+.mode-button:hover,.mode-button:focus-visible { background:#eaf6fc; }
+.mode-caption { position:absolute; right:0; bottom:calc(100% + 9px); background:var(--paper); color:var(--ink); border:2px solid #253c54; box-shadow:2px 2px 0 #243f537a; padding:5px 9px; font-size:15px; white-space:nowrap; opacity:0; transform:translateY(4px); pointer-events:none; transition:opacity .1s,transform .1s; }
+.mode-button:hover .mode-caption,.mode-button:focus-visible .mode-caption { opacity:1; transform:translateY(0); }
+.location-window { position:absolute; left:18px; bottom:18px; z-index:4; width:clamp(180px,34vw,470px); min-height:64px; border:12px solid transparent; border-image:url('text-border.webp') 10 fill / 12px / 0 stretch; color:#3b3f5b; background:#f8f8f8; padding:3px 12px; display:flex; align-items:center; font-size:clamp(17px,2vw,25px); line-height:1.1; overflow-wrap:anywhere; pointer-events:none; }
+.loading,.map-error { position:absolute; inset:0; z-index:10; display:grid; place-content:center; text-align:center; background:#2a5065; padding:30px; color:#fff; }
+.map-error { background:#673d46; }
+[hidden] { display:none!important; }
+@media(max-width:520px) { .region-map { border-width:4px; } .maps-control { top:10px; right:9px; gap:6px; padding:2px 5px; } .maps-control select { width:145px; min-width:0; font-size:15px; } .maps-control label { font-size:12px; } .map-title { left:8px; top:16px; font-size:14px; padding:4px; } .mode-controls { right:9px; bottom:9px; gap:5px; } .mode-button { width:41px; height:41px; padding:6px; } .location-window { left:9px; bottom:9px; width:calc(100% - 160px); min-width:125px; min-height:56px; padding:1px 5px; border-width:9px; border-image-width:9px; font-size:14px; } }
+@media(prefers-reduced-motion:reduce) { .frame-one,.frame-two { animation:none; } .frame-two { display:none; } .mode-caption { transition:none; } }
