@@ -1,30 +1,30 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <link rel="icon" type="image/x-icon" href="icon.ico">
+  <link rel="icon" type="image/x-icon" href="data/icon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#263b51">
   <title>Pokémon Cascade | Region Map</title>
-  <link rel="stylesheet" href="style.css?v=map-relative-cursor-5">
-  <script src="map.js?v=offline-and-pages-9" defer></script>
+  <link rel="stylesheet" href="style.css?v=pages-layout-2">
+  <script src="map.js?v=pages-layout-2" defer></script>
 </head>
 <body>
   <main class="region-map" aria-label="Pokémon Cascade region map">
     <div id="viewport" class="map-viewport" tabindex="0" aria-label="Region map. Click to position the cursor, or use WASD, arrow keys or numpad to move. Drag to pan and scroll to zoom.">
       <div id="mapScene" class="map-scene" aria-hidden="true">
         <div id="stage" class="map-stage">
-          <img id="terrainLayer" src="0terrain.webp" alt="" draggable="false">
-          <img id="routesLayer" src="1routes.webp" alt="" draggable="false">
-          <img id="townsLayer" src="2towns.webp" alt="" draggable="false">
+          <img id="terrainLayer" src="data/0terrain.webp" alt="" draggable="false">
+          <img id="routesLayer" src="data/1routes.webp" alt="" draggable="false">
+          <img id="townsLayer" src="data/2towns.webp" alt="" draggable="false">
         </div>
       </div>
     </div>
     <!-- Cursor is overlaid on the map; its sprite dimensions follow map zoom. -->
     <div id="cursorLayer" class="cursor-overlay" aria-hidden="true">
       <div id="cursor" class="map-cursor">
-        <img class="cursor-frame frame-one" id="cursorFrame1" src="cursor1.webp" alt="" draggable="false">
-        <img class="cursor-frame frame-two" id="cursorFrame2" src="cursor2.webp" alt="" draggable="false">
+        <img class="cursor-frame frame-one" id="cursorFrame1" src="data/cursor1.webp" alt="" draggable="false">
+        <img class="cursor-frame frame-two" id="cursorFrame2" src="data/cursor2.webp" alt="" draggable="false">
       </div>
     </div>
 

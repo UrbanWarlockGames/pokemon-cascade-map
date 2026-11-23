@@ -5,8 +5,7 @@
  */
 (() => {
   const $ = id => document.getElementById(id);
-  // Resolve assets relative to this script rather than the document's <base> URL.
-  // index.html and map.js are installed in the same project directory.
+  // Canonical metadata lives beside this script; offline snapshots live in dev/.
   const dataRoot = new URL('.', document.currentScript?.src || document.URL);
   const el = {
     viewport: $('viewport'), scene: $('mapScene'), stage: $('stage'),
@@ -120,7 +119,7 @@
   async function snapshotEntries(kind) {
     const key = `CASCADE_${kind.toUpperCase()}`;
     const filename = `${kind}.local.js`;
-    if (!await optionalScript(filename)) return null;
+    if (!await optionalScript(`dev/${filename}`)) return null;
     const value = window[key];
     if (value === undefined || value === null)
       throw new Error(`${filename} did not set window.${key}.`);
@@ -128,7 +127,7 @@
   }
   async function legacyEntries(kind) {
     const key = `CASCADE_${kind.toUpperCase()}`;
-    const scriptLoaded = await optionalScript(`${kind}.js`);
+    const scriptLoaded = await optionalScript(`dev/${kind}.js`);
     const promise = window[`${key}_READY`];
     const value = promise ? await promise : window[key];
     if (value === undefined || value === null) return {entries: [], found: false};
@@ -143,13 +142,12 @@
         if (snapshot) return snapshot;
         const legacy = await legacyEntries(kind);
         if (legacy.entries.length) return legacy;
-        throw new Error(`Offline ${kind} metadata unavailable. Export from the ${kind === 'maps' ? 'MapTool' : 'Location Editor'} and extract ${kind}.local.js beside index.html.`);
+        throw new Error(`Offline ${kind} metadata unavailable. Export from the ${kind === 'maps' ? 'MapTool' : 'Location Editor'} and extract dev/${kind}.local.js into the project.`);
       }
       const data = await optionalJson(filename);
       if (data !== null)
         return {entries: metadataEntries(data, kind, filename), found: true};
-      const snapshot = await snapshotEntries(kind);
-      return snapshot || legacyEntries(kind);
+      throw new Error(`Required metadata file ${filename} is missing from the published project.`);
     }));
     let [locations, maps] = canonical.map(result => result.entries);
 

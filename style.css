@@ -1,4 +1,4 @@
-@font-face { font-family: Emerald; src: url('font.ttf') format('truetype'); font-display: swap; }
+@font-face { font-family: Emerald; src: url('data/font.ttf') format('truetype'); font-display: swap; }
 :root { --cursor-cycle: 669.5ms; --ink: #293b54; --paper: #f8f7ed; }
 *,*::before,*::after { box-sizing:border-box; }
 html,body { margin:0; width:100%; min-height:100%; }
@@ -15,10 +15,8 @@ button:focus-visible,select:focus-visible,#viewport:focus-visible { outline:3px 
 /* Source pixels are preserved at 1x, duplicated without smoothing at 2x-8x. */
 .map-stage img { position:absolute; left:0; top:0; width:100%; height:100%; max-width:none; display:block; image-rendering:pixelated; }
 .map-stage img[hidden] { display:none; }
-/* Independent overlay. Never put the sprite inside the map scene or stage. */
-.cursor-overlay { position:absolute; inset:0; z-index:3; overflow:hidden; pointer-events:none; contain:layout style; }
-.map-cursor { position:absolute; top:0; left:0; pointer-events:none; width:0; height:0; transform:none!important; transform-origin:0 0; scale:1!important; zoom:1!important; }
-.cursor-frame { position:absolute; display:block; top:0; left:0; width:auto; height:auto; max-width:none; max-height:none; transform:translate(-50%,-50%); transform-origin:center; scale:1!important; zoom:1!important; image-rendering:pixelated; }
+.map-cursor { position:absolute; top:0; left:0; z-index:2; pointer-events:none; width:0; height:0; transform:translate3d(-100px,-100px,0); }
+.cursor-frame { position:absolute; display:block; top:0; left:0; width:auto; height:auto; transform:translate(-50%,-50%); max-width:none; image-rendering:pixelated; }
 .frame-one { animation:frame-one var(--cursor-cycle) steps(1,end) infinite; }
 .frame-two { animation:frame-two var(--cursor-cycle) steps(1,end) infinite; }
 @keyframes frame-one { 0%,49.999% { opacity:1 } 50%,100% { opacity:0 } }
@@ -33,7 +31,7 @@ button:focus-visible,select:focus-visible,#viewport:focus-visible { outline:3px 
 .mode-button:hover,.mode-button:focus-visible { background:#eaf6fc; }
 .mode-caption { position:absolute; right:0; bottom:calc(100% + 9px); background:var(--paper); color:var(--ink); border:2px solid #253c54; box-shadow:2px 2px 0 #243f537a; padding:5px 9px; font-size:15px; white-space:nowrap; opacity:0; transform:translateY(4px); pointer-events:none; transition:opacity .1s,transform .1s; }
 .mode-button:hover .mode-caption,.mode-button:focus-visible .mode-caption { opacity:1; transform:translateY(0); }
-.location-window { position:absolute; left:18px; bottom:18px; z-index:4; width:clamp(180px,34vw,470px); min-height:64px; border:12px solid transparent; border-image:url('text-border.webp') 10 fill / 12px / 0 stretch; color:#3b3f5b; background:#f8f8f8; padding:3px 12px; display:flex; align-items:center; font-size:clamp(17px,2vw,25px); line-height:1.1; overflow-wrap:anywhere; pointer-events:none; }
+.location-window { position:absolute; left:18px; bottom:18px; z-index:4; width:clamp(180px,34vw,470px); min-height:64px; border:12px solid transparent; border-image:url('data/text-border.webp') 10 fill / 12px / 0 stretch; color:#3b3f5b; background:#f8f8f8; padding:3px 12px; display:flex; align-items:center; font-size:clamp(17px,2vw,25px); line-height:1.1; overflow-wrap:anywhere; pointer-events:none; }
 .loading,.map-error { position:absolute; inset:0; z-index:10; display:grid; place-content:center; text-align:center; background:#2a5065; padding:30px; color:#fff; }
 .map-error { background:#673d46; }
 [hidden] { display:none!important; }
