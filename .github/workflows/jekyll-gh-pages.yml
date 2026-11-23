@@ -1,0 +1,76 @@
+# Pokémon Cascade is a static website. Keep this requested workflow
+# filename, but deploy the original files without a Jekyll transformation.
+name: Deploy Pokémon Cascade to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Prepare the public site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # Fail clearly if a required published file was not committed.
+          for file in index.html map.js style.css maps.json locations.json; do
+            if [[ ! -f "$file" ]]; then
+              echo "::error::Missing required published file: $file"
+              exit 1
+            fi
+          done
+          for file in 0terrain.webp 1routes.webp 2towns.webp cursor1.webp cursor2.webp text-border.webp font.ttf icon.ico; do
+            if [[ ! -f "data/$file" ]]; then
+              echo "::error::Missing required image, font, or icon: data/$file"
+              exit 1
+            fi
+          done
+
+          mkdir -p _site
+          cp index.html map.js style.css _site/
+          cp -R data _site/data
+
+          # Includes maps.json, locations.json and optional map-data.json
+          # plus any additional metadata JSON stored in the root directory.
+          find . -maxdepth 1 -type f -name '*.json' -exec cp -- {} _site/ \;
+
+          # Stage only published files, even if dev/ was previously tracked.
+          if [[ -e _site/dev ]]; then
+            echo '::error::Development files must not be published.'
+            exit 1
+          fi
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
