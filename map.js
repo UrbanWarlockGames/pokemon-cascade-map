@@ -259,7 +259,7 @@
     el.cursor.style.top=`${cy}px`;
     el.cursor.style.transform='none';
     el.cursor.style.visibility=cx>=left && cx<=right && cy>=top && cy<=bottom ? 'visible':'hidden';
-    el.name.textContent=locationAt(state.x,state.y);
+    el.name.textContent=locationAt(state.x,state.y).toUpperCase();
   }
   function fitView() {
     if (!state.ready) return;
@@ -453,7 +453,7 @@
       }
       document.documentElement.style.setProperty('--cursor-cycle',`${40000/GBA_FPS}ms`);
       for(const item of state.maps) {
-        const opt=document.createElement('option');opt.value=item.id;opt.textContent=item.name;
+        const opt=document.createElement('option');opt.value=item.id;opt.textContent=item.name.toUpperCase();
         el.select.appendChild(opt);
       }
       updateLayers();state.ready=true;
