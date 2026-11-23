@@ -15,6 +15,9 @@ button:focus-visible,select:focus-visible,#viewport:focus-visible { outline:3px 
 /* Source pixels are preserved at 1x, duplicated without smoothing at 2x-8x. */
 .map-stage img { position:absolute; left:0; top:0; width:100%; height:100%; max-width:none; display:block; image-rendering:pixelated; }
 .map-stage img[hidden] { display:none; }
+/* Keep the cursor overlay the same size and origin as the map viewport.
+   Without this rule, clip-path is applied to a collapsed non-positioned box. */
+.cursor-overlay { position:absolute; inset:0; z-index:3; overflow:hidden; pointer-events:none; }
 .map-cursor { position:absolute; top:0; left:0; z-index:2; pointer-events:none; width:0; height:0; transform:translate3d(-100px,-100px,0); }
 .cursor-frame { position:absolute; display:block; top:0; left:0; width:auto; height:auto; transform:translate(-50%,-50%); max-width:none; image-rendering:pixelated; }
 .frame-one { animation:frame-one var(--cursor-cycle) steps(1,end) infinite; }
