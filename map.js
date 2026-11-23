@@ -259,7 +259,7 @@
     el.cursor.style.top=`${cy}px`;
     el.cursor.style.transform='none';
     el.cursor.style.visibility=cx>=left && cx<=right && cy>=top && cy<=bottom ? 'visible':'hidden';
-    el.name.textContent=locationAt(state.x,state.y).toUpperCase();
+    el.name.textContent=locationAt(state.x,state.y);
   }
   function fitView() {
     if (!state.ready) return;
